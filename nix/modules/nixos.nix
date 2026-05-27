@@ -21,7 +21,7 @@ in
 
         package = lib.mkOption {
           type = lib.types.package;
-          default = self.packages.${pkgs.system}.llama-swap-exporter;
+          default = self.packages.${pkgs.stdenv.hostPlatform.system}.llama-swap-exporter;
           description = "The llama-swap-exporter package to use.";
         };
 
