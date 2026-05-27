@@ -191,13 +191,13 @@ in
       extraCommands = lib.mkIf (!config.networking.nftables.enable) (
         lib.concatStringsSep " " [
           "iptables -A INPUT"
-          (cfg.firewallFilter or "-p tcp -m tcp --dport ${toString cfg.port}")
+          (if cfg.firewallFilter != null then cfg.firewallFilter else "-p tcp -m tcp --dport ${toString cfg.port}")
           "-m comment --comment llama-swap-exporter"
           "-j ACCEPT"
         ]
       );
       extraInputRules = lib.mkIf (config.networking.nftables.enable) (
-        cfg.firewallRules or "tcp dport ${toString cfg.port} accept comment \"llama-swap-exporter\""
+        if cfg.firewallRules != null then cfg.firewallRules else "tcp dport ${toString cfg.port} accept comment \"llama-swap-exporter\""
       );
     };
   };
